@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - CV Builder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="cv-container">
+        <h1>Pricing</h1>
+        <p>Unlock premium features with our Basic Plan!</p>
+        <form method="POST" action="{{ url_for('create_checkout_session') }}">
+            <input type="hidden" name="plan" value="basic">
+            <button type="submit">Basic Plan - $5 (One-Time)</button>
+        </form>
+        <p><a href="{{ url_for('preview') }}">Back to Preview</a></p>
+    </div>
+</body>
+</html>
