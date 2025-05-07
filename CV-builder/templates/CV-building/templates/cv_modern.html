@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern CV</title>
+    <style>
+        body { font-family: 'Helvetica', sans-serif; margin: 1in; color: #333; }
+        .header { display: flex; align-items: center; border-left: 5px solid #007BFF; padding-left: 10px; }
+        .section { margin-top: 20px; }
+        .section h2 { color: #007BFF; }
+        .section ul { list-style-type: square; margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>{{ cv.name }}</h1>
+            <p>Email: {{ cv.email }}</p>
+            {% if cv.phone %}
+                <p>Phone: {{ cv.phone }}</p>
+            {% endif %}
+            {% if cv.linkedin %}
+                <p>LinkedIn: <a href="{{ cv.linkedin }}">{{ cv.linkedin }}</a></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="section">
+        <h2>Professional Summary</h2>
+        <p>{{ cv.summary }}</p>
+    </div>
+    <div class="section">
+        <h2>Education</h2>
+        <ul>
+            {% for edu in cv.education %}
+                <li>{{ edu.degree }}, {{ edu.field }} - {{ edu.institution }} ({{ edu.grad_date }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Experience</h2>
+        <ul>
+            {% for exp in cv.experience %}
+                <li>
+                    <strong>{{ exp.title }} at {{ exp.employer }}</strong>, {{ exp.location }} ({{ exp.start }} - {{ exp.end }})<br>
+                    {{ exp.duties | replace('\n', '<br>') | safe }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Technical Skills</h2>
+        <ul>
+            {% for lang, libs in cv.tech_skills.items() %}
+                {% if libs %}
+                    <li>{{ lang.capitalize() }}: {{ ', '.join(libs) }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>General Skills</h2>
+        <ul>
+            {% for skill in cv.skills %}
+                <li><strong>{{ skill.name }}:</strong> {{ skill.description }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Hobbies</h2>
+        <ul>
+            {% for hobby in cv.hobbies %}
+                <li><strong>{{ hobby.name }}:</strong> {{ hobby.description }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Referees</h2>
+        <ul>
+            {% for ref in cv.referees %}
+                <li>{{ ref.name }} - {{ ref.contact }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

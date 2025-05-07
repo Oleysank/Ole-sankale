@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold mb-4">Personal Information</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="text-{{ 'red' if category == 'error' else 'green' }}-600 mb-4">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" name="email" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input type="tel" name="phone" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">LinkedIn Profile</label>
+                <input type="url" name="linkedin" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="https://www.linkedin.com/in/yourprofile">
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

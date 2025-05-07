@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Referees</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Add Referees</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('referees') }}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="e.g., John Doe" required><br><br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" placeholder="e.g., john@example.com" required><br><br>
+        <label for="phone">Phone (Optional):</label>
+        <input type="text" id="phone" name="phone" placeholder="e.g., +254123456789"><br><br>
+        <label for="position">Position (Optional):</label>
+        <input type="text" id="position" name="position" placeholder="e.g., Professor"><br><br>
+        <label for="organization">Organization (Optional):</label>
+        <input type="text" id="organization" name="organization" placeholder="e.g., Egerton University"><br><br>
+        <button type="submit">Add Referee</button>
+    </form>
+    <h2>Current Referees</h2>
+    {% if referees %}
+        <ul>
+            {% for ref in referees %}
+                <li>{{ ref.name }}<br>
+                    Email: {{ ref.email }}<br>
+                    {% if ref.phone %}Phone: {{ ref.phone }}<br>{% endif %}
+                    {% if ref.position %}Position: {{ ref.position }}<br>{% endif %}
+                    {% if ref.organization %}Organization: {{ ref.organization }}{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No referees added yet.</p>
+    {% endif %}
+    <h2>Debug: Session Referees</h2>
+    <p>Raw session data: {{ session.get('referees', []) | tojson }}</p>
+    <a href="{{ url_for('preview') }}">Preview CV</a> | <a href="{{ url_for('new_cv') }}">Start New CV</a>
+</body>
+</html>

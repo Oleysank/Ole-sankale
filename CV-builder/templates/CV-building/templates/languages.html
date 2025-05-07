@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Languages</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; }
+        .button { padding: 10px 20px; background-color: #007BFF; color: white; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; }
+        .button:hover { background-color: #0056b3; }
+        ul { list-style-type: disc; margin-left: 20px; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Languages</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="success">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <input type="text" id="language" name="language" required>
+            </div>
+            <div class="form-group">
+                <label for="proficiency">Proficiency (e.g., Basic, Intermediate, Fluent):</label>
+                <input type="text" id="proficiency" name="proficiency" required>
+            </div>
+            <button type="submit" class="button">Add Language</button>
+        </form>
+        <h3>Current Languages:</h3>
+        <ul>
+            {% for lang in languages %}
+                <li>{{ lang.language }} - {{ lang.proficiency }}</li>
+            {% endfor %}
+        </ul>
+        <p><a href="{{ url_for('hobbies') }}" class="button">Proceed to Hobbies</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ cv.name }} - CV</title>
+    <link rel="stylesheet" href="{{ cv.static_base }}css/style.css">
+</head>
+<body>
+    <div class="cv-container">
+        <h1>{{ cv.name }}</h1>
+        <p>{{ cv.email }} | {{ cv.phone }} | {{ cv.linkedin }}</p>
+        
+        <h2>Professional Summary</h2>
+        <p>{{ cv.summary }}</p>
+        
+        <h2>Education</h2>
+        {% for edu in cv.education %}
+            <p><strong>{{ edu.degree }}</strong> in {{ edu.field }}<br>
+            {{ edu.institution }} | {{ edu.grad_date }}</p>
+        {% endfor %}
+        
+        <h2>Experience</h2>
+        {% for exp in cv.experience %}
+            <p><strong>{{ exp.title }}</strong><br>
+            {{ exp.employer }} | {{ exp.location }} | {{ exp.start }} - {{ exp.end }}<br>
+            {{ exp.duties | replace('\r\n', '<br>') | safe }}</p>
+        {% endfor %}
+        
+        <h2>Skills</h2>
+        <ul>
+            {% for skill in cv.skills %}
+                <li>{{ skill.name }}: {{ skill.description }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Technical Skills</h3>
+        <ul>
+            {% for lang, libs in cv.tech_skills.items() %}
+                {% if libs %}
+                    <li>{{ lang | capitalize }}: {{ libs | join(', ') }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        
+        <h2>Hobbies</h2>
+        <ul>
+            {% for hobby in cv.hobbies %}
+                <li>{{ hobby.name }}: {{ hobby.description }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h2>Certifications</h2>
+        {% if cv.certifications %}
+            <ul>
+                {% for cert in cv.certifications %}
+                    <li><strong>{{ cert.title }}</strong>, {{ cert.issuer }}, {{ cert.date }}<br>
+                        {{ cert.description | replace('\r\n', '<br>') | safe }}<br>
+                        {% if cert.verification_code %}Verification Code: {{ cert.verification_code }}{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No certifications listed.</p>
+        {% endif %}
+        
+        <h2>Referees</h2>
+        {% if cv.referees %}
+            <ul>
+                {% for ref in cv.referees %}
+                    <li>{{ ref.name }}<br>
+                        Email: {{ ref.email }}<br>
+                        {% if ref.phone %}Phone: {{ ref.phone }}<br>{% endif %}
+                        {% if ref.position %}Position: {{ ref.position }}<br>{% endif %}
+                        {% if ref.organization %}Organization: {{ ref.organization }}{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No referees listed.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

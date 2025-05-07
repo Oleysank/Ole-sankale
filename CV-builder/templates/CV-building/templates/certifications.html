@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Certifications</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Add Certifications</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('certifications') }}">
+        <label for="title">Certification Title:</label>
+        <input type="text" id="title" name="title" placeholder="e.g., Data Science Job Simulation" required><br><br>
+        <label for="issuer">Issuer:</label>
+        <input type="text" id="issuer" name="issuer" placeholder="e.g., Forage" required><br><br>
+        <label for="date">Date Issued:</label>
+        <input type="text" id="date" name="date" placeholder="e.g., May 2025" required><br><br>
+        <label for="description">Description (Optional):</label>
+        <textarea id="description" name="description" placeholder="e.g., Completed practical tasks in Business Understanding..."></textarea><br><br>
+        <label for="verification_code">Verification Code (Optional):</label>
+        <input type="text" id="verification_code" name="verification_code" placeholder="e.g., g4Cv4fAeBz6ZRrfwE"><br><br>
+        <button type="submit">Add Certification</button>
+    </form>
+    <h2>Current Certifications</h2>
+    {% if certifications %}
+        <ul>
+            {% for cert in certifications %}
+                <li>{{ cert.title }} - {{ cert.issuer }} ({{ cert.date }})<br>{{ cert.description }}{% if cert.verification_code %}<br>Verification Code: {{ cert.verification_code }}{% endif %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No certifications added yet.</p>
+    {% endif %}
+    <h2>Debug: Session Certifications</h2>
+    <p>Raw session data: {{ session.get('certifications', []) | tojson }}</p>
+    <a href="{{ url_for('referees') }}">Next: Referees</a> | <a href="{{ url_for('preview') }}">Preview CV</a>
+</body>
+</html>

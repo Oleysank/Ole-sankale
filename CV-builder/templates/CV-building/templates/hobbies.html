@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Hobbies</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Add Hobbies</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('hobbies') }}">
+        <label for="hobby">Hobby:</label>
+        <input type="text" id="hobby" name="hobby" required><br><br>
+        <label for="description">Description (Optional):</label>
+        <textarea id="description" name="description"></textarea><br><br>
+        <button type="submit">Add Hobby</button>
+    </form>
+    <h2>Current Hobbies</h2>
+    {% if hobbies %}
+        <ul>
+            {% for hobby in hobbies %}
+                <li>{{ hobby.name }}: {{ hobby.description }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hobbies added yet.</p>
+    {% endif %}
+    <a href="{{ url_for('certifications') }}">Next: Certifications</a> | <a href="{{ url_for('preview') }}">Preview CV</a>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Education</title><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold mb-4">Education</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="text-{{ 'red' if category == 'error' else 'green' }}-600 mb-4">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('education') }}">
+            <div class="mb-4"><label class="block text-sm font-medium text-gray-700">Institution</label><input type="text" name="institution" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div>
+            <div class="mb-4"><label class="block text-sm font-medium text-gray-700">Degree</label><input type="text" name="degree" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div>
+            <div class="mb-4"><label class="block text-sm font-medium text-gray-700">Field of Study</label><input type="text" name="field" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div>
+            <div class="mb-4"><label class="block text-sm font-medium text-gray-700">Graduation Date</label><input type="text" name="grad_date" placeholder="MM/YYYY" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Education</button>
+        </form>
+        <ul class="mt-4">
+            {% for edu in education %}
+                <li class="mb-2">{{ edu.institution }} - {{ edu.degree }}, {{ edu.field }} ({{ edu.grad_date }})</li>
+            {% endfor %}
+        </ul>
+        <form method="GET" action="{{ url_for('experience') }}">
+            <button type="submit" class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Proceed to Experience</button>
+        </form>
+        <a href="{{ url_for('summary') }}" class="mt-4 inline-block text-blue-500 hover:underline">Back</a>
+    </div>
+</body>
+</html>

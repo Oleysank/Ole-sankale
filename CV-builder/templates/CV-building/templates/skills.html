@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold mb-4">Skills</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <p class="text-{{ 'red' if category == 'error' else 'green' }}-600 mb-4">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h2 class="text-xl font-semibold mb-2">Add Technical Skills</h2>
+        <form method="POST" action="{{ url_for('skills') }}">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Language</label>
+                <select name="language" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    <option value="python">Python</option>
+                    <option value="r">R</option>
+                    <option value="sql">SQL</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Library/Framework</label>
+                <input type="text" name="library" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g., NumPy, Pandas">
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Technical Skill</button>
+        </form>
+
+        <h2 class="text-xl font-semibold mt-4 mb-2">Add General Skills</h2>
+        <form method="POST" action="{{ url_for('skills') }}">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Skill</label>
+                <input type="text" name="skill" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g., Teamwork" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" rows="3" placeholder="e.g., Proven ability to collaborate effectively in diverse teams..."></textarea>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Skill</button>
+        </form>
+
+        <h2 class="text-xl font-semibold mt-4 mb-2">Current Skills</h2>
+        <h3 class="text-lg font-medium">Technical Skills</h3>
+        <ul class="mb-4">
+            {% for lang, libs in tech_skills.items() %}
+                {% if libs %}
+                    <li>{{ lang.capitalize() }}: {{ ', '.join(libs) }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <h3 class="text-lg font-medium">General Skills</h3>
+        <ul class="mb-4">
+            {% for skill in skills %}
+                <li><strong>{{ skill.name }}:</strong> {{ skill.description }}</li>
+            {% endfor %}
+        </ul>
+
+        <form method="GET" action="{{ url_for('hobbies') }}">
+            <button type="submit" class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Proceed to Hobbies</button>
+        </form>
+        <a href="{{ url_for('experience') }}" class="mt-4 inline-block text-blue-500 hover:underline">Back</a>
+    </div>
+</body>
+</html>
