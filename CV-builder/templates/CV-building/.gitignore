@@ -1,0 +1,14 @@
+venv/
+*.pyc
+__pycache__/
+sessions.db
+cv_builder.db
+*.pdf
+*.log
+*.swp
+static/uploads/
+instance/
+*.db
+Readme.md
+result.py
+stud.py
