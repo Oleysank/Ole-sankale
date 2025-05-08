@@ -207,7 +207,7 @@ if request.method == 'POST':
    flash('Language saved!', 'success')
    return redirect(url_for('hobbies'))
 languages = CVData.query.filter_by(user_id=current_user.id, section='languages').all()
-return render_template('languages.html', languages=languages)
+return render_template('languages.html', secrets=languages)
 
 @app.route('/hobbies', methods=['GET', 'POST'])
 @login_required
